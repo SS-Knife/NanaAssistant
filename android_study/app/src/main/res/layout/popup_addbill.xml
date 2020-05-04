@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/liner_pop"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_height="match_parent">
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:text="常规"
+        android:background="@color/hotpink"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:id="@+id/ant"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/ant"
+        android:id="@+id/titleedit"
+        android:textColor="@color/white"
+        android:singleLine="true"
+        android:maxLength="13"
+        android:hint="收支条目"
+        android:textCursorDrawable="@drawable/edittext_underline"
+        android:textColorHint="@color/grey"/>
+
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="+"
+        android:layout_below="@+id/titleedit"
+        android:id="@+id/io"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:background="@color/hotpink"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/grey"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/moneyedit"
+        android:layout_toRightOf="@+id/io"
+        android:layout_below="@+id/titleedit"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:hint="金额"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:id="@+id/detailedit"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/moneyedit"
+        android:lines="8"
+        android:minLines="8"
+        android:padding="3dp"
+        android:hint="条目详情"
+        android:textColor="@color/white"
+        android:textColorHint="@color/grey"
+        android:background="@drawable/edittext_background"
+        android:textCursorDrawable="@null"/>
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/detailedit"
+        android:id="@+id/ok"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:background="@color/hotpink"/>
+
+
+</RelativeLayout>

@@ -22,6 +22,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         //数据库创建
         db.execSQL("create table incident (_id integer primary key autoincrement, " +
                 "title char(20), time char(20), detail char(300))");
+        db.execSQL("create table bill (_id integer primary key autoincrement, " +
+                "title char(20), time char(20), detail char(300),money char(20),io char(20),ant char(20))");
     }
 
     @Override

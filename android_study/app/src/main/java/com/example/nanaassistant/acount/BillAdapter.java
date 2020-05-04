@@ -1,9 +1,10 @@
-package com.example.nanaassistant.memorandum;
+package com.example.nanaassistant.acount;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,25 +19,28 @@ import com.kongzue.dialog.v2.CustomDialog;
 
 import java.util.List;
 
-import static com.example.nanaassistant.MainActivity.incidentdb;
+import static com.example.nanaassistant.MainActivity.billdb;
 
-public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.IncidentViewHolder> {
-    private List<Incident> incidents;
+
+public class BillAdapter extends RecyclerView.Adapter<com.example.nanaassistant.acount.BillAdapter.BillViewHolder> {
+    private List<Bill> bills;
     private View lastView;
     private Button lastbutton;
     private Context context;
 
-    static class IncidentViewHolder extends RecyclerView.ViewHolder {
-        View incidentView;
+    static class BillViewHolder extends RecyclerView.ViewHolder {
+        View billView;
         TextView title;
-        TextView remindtime;
+        TextView money;
+        TextView time;
         Button button;
 
-        public IncidentViewHolder(View view) {
+        public BillViewHolder(View view) {
             super(view);
-            incidentView = view;
+            billView = view;
+            money = view.findViewById(R.id.money);
             title = view.findViewById(R.id.title);
-            remindtime = view.findViewById(R.id.remindtime);
+            time = view.findViewById(R.id.acounttime);
             button = view.findViewById(R.id.delete);
         }
 
@@ -44,11 +48,11 @@ public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.Incide
 
     @NonNull
     @Override
-    public IncidentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public com.example.nanaassistant.acount.BillAdapter.BillViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_memorandum_item, parent, false);
-        final IncidentViewHolder holder = new IncidentViewHolder(view);
-        holder.incidentView.setOnLongClickListener(new View.OnLongClickListener() {
+                .inflate(R.layout.fragment_acount_item, parent, false);
+        final com.example.nanaassistant.acount.BillAdapter.BillViewHolder holder = new com.example.nanaassistant.acount.BillAdapter.BillViewHolder(view);
+        holder.billView.setOnLongClickListener(new View.OnLongClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
             public boolean onLongClick(View view) {
@@ -59,14 +63,14 @@ public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.Incide
                     lastbutton=null;
                     lastView=null;
                 }
-                holder.incidentView.setBackgroundColor(Color.parseColor("#CCCCCC"));
+                holder.billView.setBackgroundColor(Color.parseColor("#CCCCCC"));
                 lastbutton=holder.button;
                 holder.button.setVisibility(View.VISIBLE);
-                lastView=holder.incidentView;
+                lastView=holder.billView;
                 return true;
             }
         });
-        holder.incidentView.setOnClickListener(new View.OnClickListener() {
+        holder.billView.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View view) {
@@ -77,9 +81,8 @@ public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.Incide
                     lastView=null;
                 }else {
                     int position = holder.getAdapterPosition();
-                    Incident incident = incidents.get(position);
-                    // TODO: 2020/3/15 incident detail
-                    commonDialog(incident.getRemindtime(),incident.getTitle(),incident.getDetail());
+                    Bill bill = bills.get(position);
+                    commonDialog(bill.getTime(),bill.getTitle()+" "+bill.getAnt(),bill.getDetail(),bill.getIo()+bill.getMoney());
                 }
             }
         });
@@ -88,15 +91,16 @@ public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.Incide
 
 
     @Override
-    public void onBindViewHolder(@NonNull IncidentViewHolder holder, final int position) {
-        final Incident incident = incidents.get(position);
-        holder.title.setText(incident.getTitle());
-        holder.remindtime.setText(incident.getRemindtime());
+    public void onBindViewHolder(@NonNull com.example.nanaassistant.acount.BillAdapter.BillViewHolder holder, final int position) {
+        final Bill bill = bills.get(position);
+        holder.title.setText(bill.getTitle()+" "+bill.getAnt());
+        holder.time.setText(bill.getTime());
+        holder.money.setText(bill.getIo()+bill.getMoney());
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                incidentdb.delete("incident","title=? and time=?",new String[]{incident.getTitle(),incident.getRemindtime()});
-                incidents.remove(position);
+                billdb.delete("incident","title=? and time=?",new String[]{bill.getTitle(),bill.getTime()});
+                bills.remove(position);
                 notifyDataSetChanged();
             }
         });
@@ -105,24 +109,26 @@ public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.Incide
 
     @Override
     public int getItemCount() {
-        return incidents.size();
+        return bills.size();
     }
-    public IncidentAdapter(List<Incident> incidents,Context context) {
-        this.incidents = incidents;
+    public BillAdapter(List<Bill> bills,Context context) {
+        this.bills = bills;
         this.context=context;
     }
 
     public void setContext(){
 
     }
-    private void commonDialog(final String time, final String title, final String detail) {
-        CustomDialog.show(context, R.layout.dialog_incident, new CustomDialog.BindView() {
+    private void commonDialog(final String time, final String title, final String detail,final String money) {
+        CustomDialog.show(context, R.layout.dialog_bill, new CustomDialog.BindView() {
             @Override
             public void onBind(CustomDialog dialog, View rootView) {
                 //绑定布局
+                TextView moneytext = rootView.findViewById(R.id.money);
                 TextView titletext = rootView.findViewById(R.id.title);
                 TextView timetext=rootView.findViewById(R.id.time);
                 TextView detailtext = rootView.findViewById(R.id.detail);
+                moneytext.setText(money);
                 titletext.setText(title);
                 timetext.setText(time);
                 detailtext.setMovementMethod(ScrollingMovementMethod.getInstance());

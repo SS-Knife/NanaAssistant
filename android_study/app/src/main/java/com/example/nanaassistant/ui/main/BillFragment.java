@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nanaassistant.R;
+import com.example.nanaassistant.acount.Bill;
+import com.example.nanaassistant.acount.BillAdapter;
 import com.example.nanaassistant.memorandum.Incident;
 import com.example.nanaassistant.memorandum.IncidentAdapter;
 
@@ -20,20 +22,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
-import static com.example.nanaassistant.MainActivity.incidentdb;
+import static com.example.nanaassistant.MainActivity.billdb;
 
-/**
- * A placeholder fragment containing a simple view.
- */
-public class PlaceholderFragment extends Fragment {
 
+public class BillFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private RecyclerView recyclerView;
-    private IncidentAdapter adapter;
-    private static List<Incident> incidents = new ArrayList<>();
-
-    public static PlaceholderFragment newInstance(int index) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
+    private BillAdapter adapter;
+    private static List<Bill> bills = new ArrayList<>();
+    public static BillFragment newInstance(int index) {
+        BillFragment fragment = new BillFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -51,7 +49,7 @@ public class PlaceholderFragment extends Fragment {
             Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_main, container, false);
-        Cursor c = incidentdb.rawQuery("select * from incident ORDER BY time", null);
+        Cursor c = billdb.rawQuery("select * from bill ORDER BY time", null);
 
         if(c !=null)
         {
@@ -60,31 +58,32 @@ public class PlaceholderFragment extends Fragment {
             while(!c.isAfterLast())
             {
 
-                Incident incident =new Incident();
+                Bill bill =new Bill();
                 i++;
                 Log.d(TAG, "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh "+i);
-                incident.setTitle(c.getString(c.getColumnIndex("title")));
-                incident.setRemindtime(c.getString(c.getColumnIndex("time")));
-                incident.setDetail(c.getString(c.getColumnIndex("detail")));
-                incidents.add(incident);
+                bill.setTitle(c.getString(c.getColumnIndex("title")));
+                bill.setTime(c.getString(c.getColumnIndex("time")));
+                bill.setMoney(Double.parseDouble(c.getString(c.getColumnIndex("money"))));
+                bill.setDetail(c.getString(c.getColumnIndex("detail")));
+                bill.setAnt(c.getString(c.getColumnIndex("ant")));
+                bill.setIo(c.getString(c.getColumnIndex("io")));
+                bills.add(bill);
                 c.moveToNext();
             }
-
         }
-
 
         recyclerView = root.findViewById(R.id.recyclerview1);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new IncidentAdapter(incidents,getContext());
+        adapter = new BillAdapter(bills,getContext());
         recyclerView.setAdapter(adapter);
-
         return root;
     }
 
-    public void addIncident(Incident incident) {
-        incidents.add(incident);
+    public void addBill(Bill bill) {
+        bills.add(bill);
         adapter.notifyDataSetChanged();
     }
+
 
 }

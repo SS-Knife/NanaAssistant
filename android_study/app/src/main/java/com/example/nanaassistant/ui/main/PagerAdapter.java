@@ -13,6 +13,8 @@ import com.example.nanaassistant.R;
 
 import java.util.ArrayList;
 
+import static com.example.nanaassistant.MainActivity.flag;
+
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
@@ -46,7 +48,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 2 total pages.
-        return fragments.size();
+        return 2;
     }
 
 }

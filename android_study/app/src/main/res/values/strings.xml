@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">呐呐</string>
+    <string name="tab_text_1">备忘录</string>
+    <string name="tab_text_2">记账本</string>
+</resources>

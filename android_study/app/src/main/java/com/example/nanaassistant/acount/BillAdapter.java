@@ -99,7 +99,7 @@ public class BillAdapter extends RecyclerView.Adapter<com.example.nanaassistant.
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                billdb.delete("incident","title=? and time=?",new String[]{bill.getTitle(),bill.getTime()});
+                billdb.delete("bill","title=? and time=?",new String[]{bill.getTitle(),bill.getTime()});
                 bills.remove(position);
                 notifyDataSetChanged();
             }

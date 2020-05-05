@@ -51,6 +51,7 @@
         android:layout_toRightOf="@+id/io"
         android:layout_below="@+id/titleedit"
         android:maxLines="1"
+        android:inputType="number"
         android:textColor="@color/white"
         android:hint="金额"/>
 

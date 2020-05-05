@@ -25,15 +25,15 @@ import static com.example.nanaassistant.MainActivity.incidentdb;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PlaceholderFragment extends Fragment {
+public class MemorandumFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private RecyclerView recyclerView;
     private IncidentAdapter adapter;
     private static List<Incident> incidents = new ArrayList<>();
 
-    public static PlaceholderFragment newInstance(int index) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
+    public static MemorandumFragment newInstance(int index) {
+        MemorandumFragment fragment = new MemorandumFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -50,7 +50,7 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_main, container, false);
+        View root = inflater.inflate(R.layout.fragment_memorandum, container, false);
         Cursor c = incidentdb.rawQuery("select * from incident ORDER BY time", null);
 
         if(c !=null)

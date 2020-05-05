@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,23 +16,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.nanaassistant.R;
 import com.example.nanaassistant.acount.Bill;
 import com.example.nanaassistant.acount.BillAdapter;
-import com.example.nanaassistant.memorandum.Incident;
-import com.example.nanaassistant.memorandum.IncidentAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
 import static com.example.nanaassistant.MainActivity.billdb;
 
 
-public class BillFragment extends Fragment {
+public class AcountFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private RecyclerView recyclerView;
+    private TextView anttext;
+    private TextView normaltext;
     private BillAdapter adapter;
     private static List<Bill> bills = new ArrayList<>();
-    public static BillFragment newInstance(int index) {
-        BillFragment fragment = new BillFragment();
+    public static AcountFragment newInstance(int index) {
+        AcountFragment fragment = new AcountFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -48,7 +50,7 @@ public class BillFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_main, container, false);
+        View root = inflater.inflate(R.layout.fragment_acount, container, false);
         Cursor c = billdb.rawQuery("select * from bill ORDER BY time", null);
 
         if(c !=null)
@@ -71,7 +73,24 @@ public class BillFragment extends Fragment {
                 c.moveToNext();
             }
         }
+        Calendar cd = Calendar.getInstance();
+        String a=(cd.get(Calendar.MONTH)+1)+"";
+        Cursor d = billdb.rawQuery("select * from monthcheck where month = '"+a+"' ", null);
+        Double ant=0.0;
+        Double normal=0.0;
+        if( d !=null ){
+            d.moveToFirst();
+            if(!d.isAfterLast()) {
+                normal = Double.parseDouble(d.getString(d.getColumnIndex("normal")));
+                ant = Double.parseDouble(d.getString(d.getColumnIndex("ant")));
 
+            }
+        }
+        // TODO: 2020/5/5
+        normaltext=root.findViewById(R.id.normal);
+        anttext=root.findViewById(R.id.ant);
+        normaltext.setText("本月余额： "+normal);
+        anttext.setText("本月花呗： "+ant);
         recyclerView = root.findViewById(R.id.recyclerview1);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -84,6 +103,9 @@ public class BillFragment extends Fragment {
         bills.add(bill);
         adapter.notifyDataSetChanged();
     }
-
+    public void check(Double ant,Double normal){
+        normaltext.setText("本月余额： "+normal);
+        anttext.setText("本月花呗： "+ant);
+    }
 
 }

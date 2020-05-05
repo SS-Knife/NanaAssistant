@@ -23,7 +23,9 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL("create table incident (_id integer primary key autoincrement, " +
                 "title char(20), time char(20), detail char(300))");
         db.execSQL("create table bill (_id integer primary key autoincrement, " +
-                "title char(20), time char(20), detail char(300),money char(20),io char(20),ant char(20))");
+                "title char(20), time char(20), detail char(300),money char(20),month char(20),io char(20),ant char(20))");
+        db.execSQL("create table monthcheck (_id integer primary key autoincrement, " +
+                "normal char(20),month char(20),ant char(20))");
     }
 
     @Override

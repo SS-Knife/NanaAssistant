@@ -1,6 +1,7 @@
 package com.example.nanaassistant;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
@@ -20,16 +21,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.example.nanaassistant.acount.Bill;
 import com.example.nanaassistant.memorandum.Incident;
-import com.example.nanaassistant.ui.main.BillFragment;
-import com.example.nanaassistant.ui.main.PlaceholderFragment;
+import com.example.nanaassistant.ui.main.AcountFragment;
+import com.example.nanaassistant.ui.main.MemorandumFragment;
 import com.example.nanaassistant.ui.main.PagerAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -64,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ArrayList<Fragment> fragments=new ArrayList<>();
 
-        fragments.add(PlaceholderFragment.newInstance(0));
-        fragments.add(BillFragment.newInstance(1));
+        fragments.add(MemorandumFragment.newInstance(0));
+        fragments.add(AcountFragment.newInstance(1));
 
         // TODO: 2020/4/15  账本fragement
         fragments.add(new Fragment());
@@ -180,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 //实验语句 更新incident
-                PlaceholderFragment fragment=(PlaceholderFragment) pagerAdapter.getItem(0);
+                MemorandumFragment fragment=(MemorandumFragment) pagerAdapter.getItem(0);
                 Incident incident=new Incident(time.getText().toString(),"2000","1000",title.getText().toString(),detail.getText().toString(),false,false);
                 fragment.addIncident(incident);
 
@@ -241,6 +239,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //更新数据库
                 ContentValues cv = new ContentValues();
+                Calendar cd = Calendar.getInstance();
+                String[] month=new String[1];
+                month[0]=(cd.get(Calendar.MONTH)+1)+"";
+
                 Date date = new Date(System.currentTimeMillis());
                 cv.put("ant",antstr[antflag[0]]);
                 cv.put("io",iostr[ioflag[0]]);
@@ -248,18 +250,42 @@ public class MainActivity extends AppCompatActivity {
                 cv.put("time", getDateStr(date,null));
                 cv.put("money", money.getText().toString());
                 cv.put("detail", detail.getText().toString());
-
+                cv.put("month",(month[0]));
                 long i = billdb.insert("bill", null, cv);
                 Log.d(TAG, "onCreateView:11111111111111111111111111 ");
                 //实验语句 更新
+                Double normalmoney=0.0;
+                Double antmoney=0.0;
 
+                Cursor c = billdb.rawQuery("select * from monthcheck where month='"+month[0]+"'",null);
+                if(c!=null){
+                    c.moveToFirst();
+                    if(!c.isAfterLast()) {
+                        normalmoney = Double.parseDouble(c.getString(c.getColumnIndex("normal"))) + Double.parseDouble(money.getText().toString()) * Math.pow(-1, ioflag[0]) * (1 - antflag[0]);
+                        antmoney = Double.parseDouble(c.getString(c.getColumnIndex("ant"))) + Double.parseDouble(money.getText().toString()) * Math.pow(-1, ioflag[0]) * antflag[0];
+                        ContentValues cv1 = new ContentValues();
+                        cv1.put("month", month[0]);
+                        cv1.put("normal", normalmoney + "");
+                        cv1.put("ant", antmoney + "");
+                        billdb.update("monthcheck", cv1, "month=?", month);
 
-                BillFragment fragment=(BillFragment) pagerAdapter.getItem(1);
-                Calendar cd = Calendar.getInstance();
+                    }else {
+
+                        normalmoney = Double.parseDouble(money.getText().toString()) * Math.pow(-1, ioflag[0]) * (1 - antflag[0]);
+                        antmoney = Double.parseDouble(money.getText().toString()) * Math.pow(-1, ioflag[0]) * antflag[0];
+                        ContentValues cv1 = new ContentValues();
+                        cv1.put("month", month[0]);
+                        cv1.put("normal", normalmoney + "");
+                        cv1.put("ant", antmoney + "");
+                        billdb.insert("monthcheck", null, cv1);
+                    }
+                }
+                AcountFragment fragment=(AcountFragment) pagerAdapter.getItem(1);
                 Bill bill=new Bill(title.getText().toString(),detail.getText().toString(),
-                        getDateStr(date,null),(cd.get(Calendar.MONTH)+1)+"",
+                        getDateStr(date,null),month[0],
                         Double.parseDouble(money.getText().toString()),iostr[ioflag[0]],antstr[antflag[0]]);
                 fragment.addBill(bill);
+                fragment.check(antmoney,normalmoney);
                 title.setText(null);
                 money.setText(null);
                 detail.setText(null);

@@ -241,8 +241,9 @@ public class MainActivity extends AppCompatActivity {
                 ContentValues cv = new ContentValues();
                 Calendar cd = Calendar.getInstance();
                 String[] month=new String[1];
+                String[] month1=new String[1];
                 month[0]=(cd.get(Calendar.MONTH)+1)+"";
-
+                month1[0]=(cd.get(Calendar.MONTH))+"";
                 Date date = new Date(System.currentTimeMillis());
                 cv.put("ant",antstr[antflag[0]]);
                 cv.put("io",iostr[ioflag[0]]);
@@ -270,14 +271,27 @@ public class MainActivity extends AppCompatActivity {
                         billdb.update("monthcheck", cv1, "month=?", month);
 
                     }else {
-
-                        normalmoney = Double.parseDouble(money.getText().toString()) * Math.pow(-1, ioflag[0]) * (1 - antflag[0]);
-                        antmoney = Double.parseDouble(money.getText().toString()) * Math.pow(-1, ioflag[0]) * antflag[0];
-                        ContentValues cv1 = new ContentValues();
-                        cv1.put("month", month[0]);
-                        cv1.put("normal", normalmoney + "");
-                        cv1.put("ant", antmoney + "");
-                        billdb.insert("monthcheck", null, cv1);
+                        Cursor d = billdb.rawQuery("select * from monthcheck where month='"+month1[0]+"'",null);
+                        if(d!=null) {
+                            d.moveToFirst();
+                            if (!d.isAfterLast()) {
+                                normalmoney = Double.parseDouble(d.getString(d.getColumnIndex("normal"))) + Double.parseDouble(money.getText().toString()) * Math.pow(-1, ioflag[0]) * (1 - antflag[0]);
+                                antmoney = Double.parseDouble(d.getString(d.getColumnIndex("ant"))) + Double.parseDouble(money.getText().toString()) * Math.pow(-1, ioflag[0]) * antflag[0];
+                                ContentValues cv1 = new ContentValues();
+                                cv1.put("month", month[0]);
+                                cv1.put("normal", normalmoney + "");
+                                cv1.put("ant", antmoney + "");
+                                billdb.insert("monthcheck", null, cv1);
+                            }else{
+                                normalmoney = Double.parseDouble(money.getText().toString()) * Math.pow(-1, ioflag[0]) * (1 - antflag[0]);
+                                antmoney = Double.parseDouble(money.getText().toString()) * Math.pow(-1, ioflag[0]) * antflag[0];
+                                ContentValues cv1 = new ContentValues();
+                                cv1.put("month", month[0]);
+                                cv1.put("normal", normalmoney + "");
+                                cv1.put("ant", antmoney + "");
+                                billdb.insert("monthcheck", null, cv1);
+                            }
+                        }
                     }
                 }
                 AcountFragment fragment=(AcountFragment) pagerAdapter.getItem(1);

@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_gravity="center_horizontal"
-            android:background="@color/hotpink"/>
+            android:background="@color/test1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,27 +32,36 @@
             android:layout_gravity="right"
             android:textSize="15sp"
             android:id="@+id/title"/>
+
         <TextView
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:layout_marginTop="30dp"
             android:layout_marginRight="10dp"
-            android:layout_gravity="right"
             android:textColor="@color/white"
-            android:textSize="15sp"
-            android:id="@+id/time"/>
+            android:textSize="15sp" />
+
         <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="55dp"
+            android:id="@+id/detail"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:textSize="25sp"
-            android:id="@+id/detail"
-            android:singleLine="false"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginRight="10dp"
             android:scrollbars="vertical"
+            android:singleLine="false"
+            android:textSize="25sp" />
 
-            />
+        <ImageView
+            android:layout_gravity="bottom|right"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/timg"
+            android:scaleType="fitStart">
+
+        </ImageView>
 
     </androidx.cardview.widget.CardView>
 

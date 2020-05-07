@@ -6,7 +6,7 @@
     <!-- 边缘线条颜色 -->
     <stroke
         android:width="2dp"
-        android:color="@color/hotpink" />
+        android:color="@color/test1" />
     <!-- 圆角的幅度 -->
     <corners
         android:topLeftRadius="5dp"

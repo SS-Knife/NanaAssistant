@@ -1,6 +1,7 @@
 package com.example.nanaassistant;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -32,6 +33,7 @@ import com.example.nanaassistant.ui.main.PagerAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.kongzue.dialog.v2.MessageDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         billdb=billSQLiteOpenHelper.getWritableDatabase();
         incidentdb = incidentSQLiteOpenHelper.getWritableDatabase();
+        notice();
         setStatusBarFullTransparent();
         setContentView(R.layout.activity_main);
         ArrayList<Fragment> fragments=new ArrayList<>();
@@ -170,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //更新数据库
                 ContentValues cv = new ContentValues();
+                cv.put("day",time.getText().toString().substring(0,11));
                 cv.put("title", title.getText().toString());
                 cv.put("time", time.getText().toString());
                 cv.put("detail", detail.getText().toString());
@@ -305,6 +309,8 @@ public class MainActivity extends AppCompatActivity {
                 detail.setText(null);
                 ant.setText(antstr[0]);
                 io.setText(iostr[0]);
+                ioflag[0]=0;
+                antflag[0]=0;
                 popupWindow_bill.dismiss();
             }
         });
@@ -333,7 +339,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    public void notice(){
+        Date date = new Date(System.currentTimeMillis());
+        String today=getDateStr(date,null).substring(0,11);
+        Cursor a = incidentdb.rawQuery("select * from incident where day='"+today+"'ORDER BY time",null);
+        int x=0;
+        String firsttime="";
+        if(a!=null) {
+            a.moveToFirst();
+            if(!a.isAfterLast()){
+                firsttime=a.getString(a.getColumnIndex("time")).substring(11,16);
+            }
+            while (!a.isAfterLast()) {
+                x++;
+                a.moveToNext();
+            }
+        }
+        if(x!=0){
+            MessageDialog.show(MainActivity.this, "今日提醒", "今日"+firsttime+"起你有"+x+"件事待做哦", "知道了", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+        }
+    }
 
 
 

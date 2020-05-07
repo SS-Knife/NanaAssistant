@@ -9,25 +9,26 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/pink"
+        android:background="@color/test2"
         android:id="@+id/bar"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <TextView
             android:layout_width="match_parent"
-            android:background="@color/pink"
+            android:background="@color/test2"
             android:layout_height="30dp"
             />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
-            app:tabBackground="@color/pink"
-            app:tabTextAppearance="@style/tabtext"
-            app:tabIndicatorColor="@color/hotpink"
-            app:tabIndicatorFullWidth="false"
-            app:tabIndicatorHeight="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary" />
+            android:background="?attr/colorPrimary"
+            app:tabBackground="@color/test1"
+            app:tabIndicatorColor="@color/test2"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="3dp"
+            app:tabTextAppearance="@style/tabtext" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -42,6 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/pink"
+        app:backgroundTint="@color/test1"
         app:srcCompat="@mipmap/plus" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

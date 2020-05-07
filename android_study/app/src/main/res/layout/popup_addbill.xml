@@ -11,7 +11,7 @@
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:text="常规"
-        android:background="@color/hotpink"
+        android:background="@color/test1"
         android:textColor="@color/white"
         android:textSize="15sp"
         android:id="@+id/ant"
@@ -39,7 +39,7 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/white"
         android:textSize="25sp"
-        android:background="@color/hotpink"/>
+        android:background="@color/test1"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -81,7 +81,7 @@
         android:id="@+id/ok"
         android:text="确定"
         android:textColor="@color/white"
-        android:background="@color/hotpink"/>
+        android:background="@color/test1"/>
 
 
 </RelativeLayout>

@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
-            android:background="@color/hotpink"/>
+            android:background="@color/test1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,6 +43,15 @@
             android:scrollbars="vertical"
 
             />
+        <ImageView
+            android:layout_gravity="bottom|right"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/timg"
+            android:scaleType="fitStart">
+
+        </ImageView>
+
 
     </androidx.cardview.widget.CardView>
 

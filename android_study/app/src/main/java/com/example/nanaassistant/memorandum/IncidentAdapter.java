@@ -3,11 +3,13 @@ package com.example.nanaassistant.memorandum;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.media.Image;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,14 +25,14 @@ import static com.example.nanaassistant.MainActivity.incidentdb;
 public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.IncidentViewHolder> {
     private List<Incident> incidents;
     private View lastView;
-    private Button lastbutton;
+    private ImageButton lastbutton;
     private Context context;
 
     static class IncidentViewHolder extends RecyclerView.ViewHolder {
         View incidentView;
         TextView title;
         TextView remindtime;
-        Button button;
+        ImageButton button;
 
         public IncidentViewHolder(View view) {
             super(view);

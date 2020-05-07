@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,7 @@ import static com.example.nanaassistant.MainActivity.billdb;
 public class BillAdapter extends RecyclerView.Adapter<com.example.nanaassistant.acount.BillAdapter.BillViewHolder> {
     private List<Bill> bills;
     private View lastView;
-    private Button lastbutton;
+    private ImageButton lastbutton;
     private Context context;
 
     static class BillViewHolder extends RecyclerView.ViewHolder {
@@ -33,7 +34,7 @@ public class BillAdapter extends RecyclerView.Adapter<com.example.nanaassistant.
         TextView title;
         TextView money;
         TextView time;
-        Button button;
+        ImageButton button;
 
         public BillViewHolder(View view) {
             super(view);

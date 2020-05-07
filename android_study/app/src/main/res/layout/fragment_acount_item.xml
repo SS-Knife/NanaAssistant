@@ -35,18 +35,16 @@
             android:textSize="15sp"
             android:text="1月flkajflk"/>
 
-        <Button
+        <ImageButton
             android:layout_gravity="right"
-            android:layout_width="60dp"
+            android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:visibility="invisible"
-            android:background="@color/hotpink"
-            android:textColor="@color/white"
             android:id="@+id/delete"
-            android:text="删除" />
-
+            android:src="@drawable/delete"
+            android:scaleType="fitStart"
+            android:background="@color/white"
+            android:visibility="invisible"
+            android:contentDescription="TODO" />
 
     </androidx.cardview.widget.CardView>
 

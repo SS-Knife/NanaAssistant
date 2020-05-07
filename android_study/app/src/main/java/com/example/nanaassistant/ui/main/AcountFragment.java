@@ -53,16 +53,14 @@ public class AcountFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_acount, container, false);
         Cursor c = billdb.rawQuery("select * from bill ORDER BY time", null);
 
-        if(c !=null)
+        if(c !=null&&bills.size()==0)
         {
             int i=0;
             c.moveToFirst();
             while(!c.isAfterLast())
             {
-
                 Bill bill =new Bill();
                 i++;
-                Log.d(TAG, "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh "+i);
                 bill.setTitle(c.getString(c.getColumnIndex("title")));
                 bill.setTime(c.getString(c.getColumnIndex("time")));
                 bill.setMoney(Double.parseDouble(c.getString(c.getColumnIndex("money"))));
@@ -86,7 +84,6 @@ public class AcountFragment extends Fragment {
 
             }
         }
-        // TODO: 2020/5/5
         normaltext=root.findViewById(R.id.normal);
         anttext=root.findViewById(R.id.ant);
         normaltext.setText("本月余额： "+normal);

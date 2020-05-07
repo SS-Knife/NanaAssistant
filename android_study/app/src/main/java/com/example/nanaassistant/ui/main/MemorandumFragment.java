@@ -53,7 +53,7 @@ public class MemorandumFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_memorandum, container, false);
         Cursor c = incidentdb.rawQuery("select * from incident ORDER BY time", null);
 
-        if(c !=null)
+        if(c !=null&&incidents.size()==0)
         {
             int i=0;
             c.moveToFirst();

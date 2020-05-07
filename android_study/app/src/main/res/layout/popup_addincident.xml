@@ -53,7 +53,7 @@
         android:id="@+id/ok"
         android:text="确定"
         android:textColor="@color/white"
-        android:background="@color/hotpink"/>
+        android:background="@color/test1"/>
 
 
 </LinearLayout>

@@ -45,9 +45,9 @@
             />
         <ImageView
             android:layout_gravity="bottom|right"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/timg"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/pikachu"
             android:scaleType="fitStart">
 
         </ImageView>

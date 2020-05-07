@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/liner_main"
+    android:background="@drawable/tim"
     android:orientation="vertical"
     tools:context=".ui.main.MemorandumFragment">
     <androidx.cardview.widget.CardView
